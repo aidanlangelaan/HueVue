@@ -1,20 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import appstate from './modules/appstate'
+import hue from './modules/hue'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-	state: {
-		sideBarOpen: false,
+	modules: {
+		appstate,
+		hue,
 	},
-	mutations: {
-		changeSideBarState(state, position) {
-			state.sideBarOpen = position
-		},
-	},
-	getters: {
-		sideBarOpen: state => state.sideBarOpen,
-	},
-	actions: {},
-	modules: {},
 })

@@ -1,7 +1,10 @@
-/* eslint-disable prettier/prettier */
 <template>
     <b-navbar type="dark" variant="info" id="page-nav">
-        <b-button class="navbar-toggler" v-on:click="menuButtonclicked()">
+        <b-button
+            class="navbar-toggler"
+            :v-if="hideMenuButton != false"
+            v-on:click="menuButtonclicked()"
+        >
             <font-awesome-icon icon="bars" />
         </b-button>
 
@@ -14,18 +17,14 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class NavBar extends Vue {
-    @Prop() private pageTitle!: string
+    @Prop() pageTitle!: string
+    @Prop({ default: false }) hideMenuButton!: boolean
 
     menuButtonclicked() {
-        let sideBarOpen = this.$store.state.sideBarOpen
-
-        if (sideBarOpen) {
-            sideBarOpen = false
-        } else {
-            sideBarOpen = true
-        }
-
-        this.$store.commit('changeSideBarState', sideBarOpen)
+        this.$store.dispatch(
+            'appstate/changeSideBarState',
+            !this.$store.getters['appstate/sideBarOpen']
+        )
     }
 }
 </script>

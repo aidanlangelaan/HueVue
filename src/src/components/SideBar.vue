@@ -17,6 +17,12 @@
                     <span>Home</span>
                 </span>
             </router-link>
+            <router-link to="/bridgedetection" class="nav-item">
+                <span @click="navItemClicked()">
+                    <b-icon icon="app"></b-icon>
+                    <span>Bridge detection</span>
+                </span>
+            </router-link>
             <router-link to="/about" class="nav-item">
                 <span @click="navItemClicked()">
                     <b-icon icon="info-circle-fill"></b-icon>
@@ -33,7 +39,7 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component
 export default class SideBar extends Vue {
     navItemClicked() {
-        this.$store.commit('changeSideBarState', false)
+        this.$store.dispatch('appstate/changeSideBarState', false)
     }
 }
 </script>
