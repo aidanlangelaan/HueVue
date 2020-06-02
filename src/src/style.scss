@@ -8,6 +8,7 @@ body {
 	background: lightgrey;
 	height: 100%;
 	font-family: 'Open Sans', sans-serif;
+	overscroll-behavior: none;
 }
 
 #left {
@@ -59,8 +60,89 @@ body {
 	}
 }
 
-@media (min-width: 600px) {
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
 	body {
 		background: green;
+	}
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+	body {
+		background: red;
+	}
+
+	.side-bar-open {
+		#left {
+			width: 40%;
+		}
+
+		#right {
+			left: 40%;
+		}
+	}
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+	body {
+		background: blue;
+	}
+
+	.side-bar-open {
+		#left {
+			width: 45%;
+		}
+
+		#right {
+			left: 45%;
+		}
+	}
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+	body {
+		background: pink;
+	}
+
+	#left {
+		width: 35%;
+	}
+
+	#right {
+		left: 35%;
+	}
+
+	#left,
+	#right {
+		-webkit-transition: none;
+		-moz-transition: none;
+		-o-transition: none;
+		transition: none;
+	}
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+	body {
+		background: orange;
+	}
+
+	#left {
+		width: 25%;
+	}
+
+	#right {
+		left: 25%;
+	}
+
+	#left,
+	#right {
+		-webkit-transition: none;
+		-moz-transition: none;
+		-o-transition: none;
+		transition: none;
 	}
 }
