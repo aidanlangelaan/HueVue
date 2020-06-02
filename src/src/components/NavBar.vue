@@ -34,7 +34,7 @@ export default class NavBar extends Vue {
 #page-nav {
 	background-color: #3eaf7c !important;
 
-	.navbar-toggler {
+	button.navbar-toggler {
 		display: block;
 		color: white;
 		background: none;
@@ -45,6 +45,8 @@ export default class NavBar extends Vue {
 		&:active,
 		&:focus {
 			border: none;
+            outline: none;
+            box-shadow: none;
 		}
 	}
 }
