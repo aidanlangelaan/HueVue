@@ -94,6 +94,9 @@ export default {
                     console.log(error)
                 })
         }
+    },
+    mounted: function() {
+        this.checkBridge()
     }
 }
 </script>
