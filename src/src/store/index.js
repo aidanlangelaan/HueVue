@@ -1,11 +1,13 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue'
+import Vuex from 'vuex'
+import appstate from './modules/appstate'
+import hue from './modules/hue'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {}
-});
+    modules: {
+        appstate,
+        hue
+    }
+})

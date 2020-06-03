@@ -1,0 +1,129 @@
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootstrap-vue/src/index.scss';
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+html,
+body {
+    background: lightgrey;
+    height: 100%;
+    font-family: 'Open Sans', sans-serif;
+    overscroll-behavior: none;
+}
+
+#left {
+    position: fixed;
+    top: 0;
+    width: 0;
+    height: 0%;
+    overflow-y: auto;
+    white-space: nowrap;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+}
+
+#right {
+    padding: 0;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+
+    .page-body {
+        //padding: 22px;
+
+        .page-header {
+            .navbar-brand {
+                font-size: 23px;
+                padding-top: 0;
+            }
+        }
+
+        .page-content {
+            padding: 15px 15px;
+        }
+    }
+}
+
+.side-bar-open {
+    #left {
+        width: 70%;
+    }
+
+    #right {
+        left: 70%;
+    }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .side-bar-open {
+        #left {
+            width: 40%;
+        }
+
+        #right {
+            left: 40%;
+        }
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .side-bar-open {
+        #left {
+            width: 45%;
+        }
+
+        #right {
+            left: 45%;
+        }
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    #left {
+        width: 35%;
+    }
+
+    #right {
+        left: 35%;
+    }
+
+    #left,
+    #right {
+        -webkit-transition: none;
+        -moz-transition: none;
+        -o-transition: none;
+        transition: none;
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    #left {
+        width: 25%;
+    }
+
+    #right {
+        left: 25%;
+    }
+
+    #left,
+    #right {
+        -webkit-transition: none;
+        -moz-transition: none;
+        -o-transition: none;
+        transition: none;
+    }
+}
