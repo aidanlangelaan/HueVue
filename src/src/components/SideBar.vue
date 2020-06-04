@@ -4,7 +4,7 @@
             <router-link to="/">
                 <span @click="navItemClicked()">
                     <span class="logo">
-                        <img alt="CoreVue" src="@/assets/images/lightbulb.svg" />
+                        <img alt="HueVue" src="@/assets/images/lightbulb.svg" />
                     </span>
                     <span class="title">HueVue</span>
                 </span>
