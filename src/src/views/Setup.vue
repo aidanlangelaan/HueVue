@@ -8,8 +8,8 @@
 
             <div
                 v-if="
-					(detectingBridges = false && validatedBridges.length == 0)
-				"
+                    (detectingBridges = false && validatedBridges.length == 0)
+                "
             >No Hue Bridges found.</div>
 
             <div v-if="validatedBridges.length > 0">
@@ -18,7 +18,7 @@
 
                 <ul>
                     <li v-for="bridge in validatedBridges" :key="bridge.id">
-                        ID: {{ bridge.id }}
+                        ID: {{ bridge.bridgeid }}
                         <br />
                         IP address: {{ bridge.internalipaddress }}
                     </li>
@@ -29,8 +29,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 import NavBar from '@/components/NavBar'
 
 export default {
@@ -39,7 +37,6 @@ export default {
     },
     data() {
         return {
-            rawBridges: [],
             validatedBridges: [],
             detectingBridges: {
                 type: Boolean,
@@ -48,13 +45,22 @@ export default {
         }
     },
     methods: {
-        checkBridge() {
+        detectBridges() {
             if (!this.$store['hue/bridge']) {
-                // no existing bridge found so try and detect
+                // no existing bridge found so detect and validate
                 this.detectingBridges = true
-                axios
-                    .get('https://discovery.meethue.com/')
-                    .then(this.setupBridge)
+
+                this.$store.dispatch('hue/detectBridges').then(foundBridges => {
+                    if (foundBridges && foundBridges.length > 0) {
+                        this.$store
+                            .dispatch('hue/validateBridges', foundBridges)
+                            .then(validatedBridges => {
+                                // finished detecting and validating so now display the result
+                                this.detectingBridges = false
+                                this.validatedBridges = validatedBridges
+                            })
+                    }
+                })
             } else {
                 // try and connect to bridge
                 this.checkConnection()
@@ -63,40 +69,10 @@ export default {
 
         checkConnection() {
             return true
-        },
-
-        setupBridge(response) {
-            if (response.data) {
-                this.rawBridges = response.data
-                this.rawBridges.forEach(this.validateBridge)
-            } else {
-                // no bridges found!
-                this.detectingBridges = false
-            }
-        },
-
-        validateBridge(bridge) {
-            // try fetching the description
-            axios
-                .get(`http://${bridge.internalipaddress}/api/tmp/config`)
-                .then(response => {
-                    if (response.status == 200 && response.data) {
-                        // const validatedBridge = that.rawBridges.find(
-                        // 	element => element.id == response.bridgeid.toLowerCase()
-                        // )
-                        // if (validatedBridge) {
-                        // 	that.validatedBridges.push(validatedBridge)
-                        // }
-                    }
-                })
-                .catch(error => {
-                    // failed to validate bridge so ignoring it
-                    console.log(error)
-                })
         }
     },
     mounted: function() {
-        this.checkBridge()
+        this.detectBridges()
     }
 }
 </script>

@@ -2,7 +2,8 @@ import axios from 'axios'
 
 // initial state
 const state = () => ({
-    bridges: [],
+    detectedBridges: [],
+    validatedBridges: [],
     activeBridge: {}
 })
 
@@ -12,27 +13,75 @@ const getters = {
         return state.activeBridge
     },
 
-    getBridges: state => {
-        return state.brdiges
+    getDetectedBridges: state => {
+        return state.detectedBridges
+    },
+
+    getValidatedBridges: state => {
+        return state.validatedBridges
     }
 }
 
 // actions
 const actions = {
-    detectBridges() {
-        axios
+    detectBridges({ commit }) {
+        commit('setDetectedBridges', [])
+
+        return axios
             .get('https://discovery.meethue.com/')
             .then(response => {
                 if (response.status === 200 && response.data.length > 0) {
-                    //commit('setBridges', response.data)
-
+                    commit('setDetectedBridges', response.data)
                     return response.data
+                } else {
+                    commit('setDetectedBridges', [])
+                    return []
                 }
             })
             .catch(error => {
                 // failed to validate bridge so ignoring it
                 console.log(error)
             })
+    },
+
+    validateBridges({ commit, getters }, bridges) {
+        commit('setValidatedBridges', [])
+        let bridgeLinks = []
+
+        bridges.forEach(bridge => {
+            bridgeLinks.push(
+                axios
+                    .get(`//${bridge.internalipaddress}/api/tmp/config`)
+                    .catch(error => {
+                        console.log('interal ' + error)
+                    })
+            )
+        })
+
+        return Promise.all(bridgeLinks).then(results => {
+            let validatedBridges = []
+
+            results.forEach(result => {
+                if (result) {
+                    let validatedBridge = result.data
+
+                    // get detected bridge and merge with the validated bridge object
+                    let detectedBridge = getters.getDetectedBridges.find(
+                        detectedBridges =>
+                            detectedBridges.id ==
+                            validatedBridge.bridgeid.toLowerCase()
+                    )
+
+                    validatedBridge.internalipaddress =
+                        detectedBridge.internalipaddress
+                    validatedBridge.bridgeid = validatedBridge.bridgeid.toLowerCase()
+                    validatedBridges.push(validatedBridge)
+                }
+            })
+
+            commit('setValidatedBridges', validatedBridges)
+            return validatedBridges
+        })
     },
 
     changeActiveBridge({ commit }, bridge) {
@@ -46,8 +95,12 @@ const mutations = {
         state.activeBridge = bridge
     },
 
-    setBridges(state, bridges) {
-        state.bridges = bridges
+    setDetectedBridges(state, bridges) {
+        state.detectedBridges = bridges
+    },
+
+    setValidatedBridges(state, bridges) {
+        state.validatedBridges = bridges
     }
 }
 
