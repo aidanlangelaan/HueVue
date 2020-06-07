@@ -17,12 +17,6 @@
                     <span>Home</span>
                 </span>
             </router-link>
-            <router-link to="/setup" class="nav-item">
-                <span @click="navItemClicked()">
-                    <b-icon icon="app"></b-icon>
-                    <span>Setup</span>
-                </span>
-            </router-link>
             <router-link to="/about" class="nav-item">
                 <span @click="navItemClicked()">
                     <b-icon icon="info-circle-fill"></b-icon>

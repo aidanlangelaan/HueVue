@@ -4,8 +4,8 @@
         <div class="page-content">
             <detect-bridge @nextStep="nextStep" v-if="setupStage == 1" />
             <authenticate-bridge
-                @next-step="nextStep"
-                @previous-step="previousStep"
+                @nextStep="nextStep"
+                @previousStep="previousStep"
                 v-if="setupStage == 2"
             />
         </div>
@@ -31,6 +31,10 @@ export default {
     methods: {
         nextStep() {
             this.setupStage += 1
+
+            if (this.setupStage == 3) {
+                this.$router.push('home')
+            }
         },
         previousStep() {
             if (this.setupStage > 1) {

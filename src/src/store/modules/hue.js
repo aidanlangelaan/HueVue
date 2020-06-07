@@ -4,7 +4,8 @@ import axios from 'axios'
 const state = () => ({
     detectedBridges: [],
     validatedBridges: [],
-    activeBridge: {}
+    activeBridge: {},
+    user: ''
 })
 
 // getters
@@ -19,6 +20,10 @@ const getters = {
 
     getValidatedBridges: state => {
         return state.validatedBridges
+    },
+
+    getUser: state => {
+        return state.user
     }
 }
 
@@ -86,6 +91,36 @@ const actions = {
 
     changeActiveBridge({ commit }, bridge) {
         commit('setActiveBridge', bridge)
+    },
+
+    createUser({ commit, getters }) {
+        const activeBridge = getters.getActiveBridge
+        const uniqueId = window.crypto
+            .getRandomValues(new Uint32Array(1))[0]
+            .toString(16)
+
+        return axios
+            .post(`//${activeBridge.internalipaddress}/api`, {
+                devicetype: `HueVue#${uniqueId}`
+            })
+            .then(response => {
+                if (
+                    response.data[0].error &&
+                    response.data[0].error.type == 101
+                ) {
+                    console.log('link button not pressed')
+                    return false
+                } else if (response.data[0].success) {
+                    commit('setUser', response.data[0].success.username)
+
+                    return true
+                }
+            })
+            .catch(error => {
+                console.log(error)
+
+                return false
+            })
     }
 }
 
@@ -101,6 +136,10 @@ const mutations = {
 
     setValidatedBridges(state, bridges) {
         state.validatedBridges = bridges
+    },
+
+    setUser(state, user) {
+        state.user = user
     }
 }
 
