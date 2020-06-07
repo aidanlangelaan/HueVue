@@ -18,10 +18,12 @@ const vuexLocalStorage = new VuexPersist({
     // filter: mutation => (true)
 })
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
     modules: {
         appstate,
         hue
     },
     plugins: [vuexLocalStorage.plugin]
 })
+
+export default store

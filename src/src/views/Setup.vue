@@ -1,6 +1,10 @@
 <template>
     <div class="page-body">
-        <nav-bar page-title="Setup" class="page-header" />
+        <nav-bar
+            page-title="Setup"
+            class="page-header"
+            :hide-menu-button="true"
+        />
         <div class="page-content">
             <detect-bridge @nextStep="nextStep" v-if="setupStage == 1" />
             <authenticate-bridge
@@ -46,5 +50,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

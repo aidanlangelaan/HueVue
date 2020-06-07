@@ -2,7 +2,7 @@
     <b-navbar type="dark" variant="info" id="page-nav">
         <b-button
             class="navbar-toggler"
-            :v-if="hideMenuButton != false"
+            v-if="!hideMenuButton"
             @click="menuButtonclicked()"
         >
             <font-awesome-icon icon="bars" />
