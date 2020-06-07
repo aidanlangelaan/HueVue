@@ -11,15 +11,33 @@ const routes = [
         redirect: { name: 'Home' }
     },
     {
+        path: '/setup',
+        name: 'Setup',
+        component: () => import('@/views/Setup.vue')
+    },
+    {
         path: '/home',
         name: 'Home',
         component: Home,
         meta: { authorize: true }
     },
     {
-        path: '/setup',
-        name: 'Setup',
-        component: () => import('@/views/Setup.vue')
+        path: '/rooms',
+        name: 'Rooms',
+        component: () => import('@/views/Rooms.vue'),
+        meta: { authorize: true }
+    },
+    {
+        path: '/lights',
+        name: 'Lights',
+        component: () => import('@/views/Lights.vue'),
+        meta: { authorize: true }
+    },
+    {
+        path: '/scenes',
+        name: 'Scenes',
+        component: () => import('@/views/Scenes.vue'),
+        meta: { authorize: true }
     },
     {
         path: '/about',

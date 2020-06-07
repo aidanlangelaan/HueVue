@@ -17,6 +17,24 @@
                     <span>Home</span>
                 </span>
             </router-link>
+            <router-link to="/rooms" class="nav-item">
+                <span @click="navItemClicked()">
+                    <b-icon icon="door-closed-fill"></b-icon>
+                    <span>Rooms</span>
+                </span>
+            </router-link>
+            <router-link to="/lights" class="nav-item">
+                <span @click="navItemClicked()">
+                    <img src="@/assets/images/hue-bulb-classic.png" />
+                    <span>Lights</span>
+                </span>
+            </router-link>
+            <router-link to="/scenes" class="nav-item">
+                <span @click="navItemClicked()">
+                    <b-icon icon="card-image"></b-icon>
+                    <span>Scenes</span>
+                </span>
+            </router-link>
             <router-link to="/about" class="nav-item">
                 <span @click="navItemClicked()">
                     <b-icon icon="info-circle-fill"></b-icon>
@@ -124,6 +142,11 @@ export default {
                 svg {
                     font-size: 24px;
                     margin-right: 20px;
+                }
+
+                img {
+                    width: 28px;
+                    margin-right: 16px;
                 }
 
                 span {
