@@ -85,6 +85,8 @@ const actions = {
             })
 
             commit('setValidatedBridges', validatedBridges)
+            commit('setDetectedBridges', [])
+
             return validatedBridges
         })
     },
