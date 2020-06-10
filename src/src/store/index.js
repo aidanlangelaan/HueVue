@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersist from 'vuex-persist'
+import httpInterceptor from '@/helpers/httpInterceptor'
 
 import appstate from './modules/appstate'
 import hue from './modules/hue'
@@ -18,12 +19,10 @@ const vuexLocalStorage = new VuexPersist({
     // filter: mutation => (true)
 })
 
-const store = new Vuex.Store({
+export default new Vuex.Store({
     modules: {
         appstate,
         hue
     },
-    plugins: [vuexLocalStorage.plugin]
+    plugins: [vuexLocalStorage.plugin, httpInterceptor]
 })
-
-export default store

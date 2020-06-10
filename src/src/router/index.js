@@ -22,9 +22,9 @@ const routes = [
         meta: { authorize: true }
     },
     {
-        path: '/rooms',
-        name: 'Rooms',
-        component: () => import('@/views/Rooms.vue'),
+        path: '/groups',
+        name: 'Rooms & Zones',
+        component: () => import('@/views/Groups.vue'),
         meta: { authorize: true }
     },
     {

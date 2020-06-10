@@ -41,11 +41,17 @@ body {
             .navbar-brand {
                 font-size: 23px;
                 padding-top: 0;
+                padding-bottom: 0;
             }
         }
 
         .page-content {
             padding: 15px 15px;
+
+            button {
+                background-color: #3eaf7c;
+                border-color: #3eaf7c;
+            }
         }
     }
 }

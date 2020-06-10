@@ -1,5 +1,4 @@
 import axios from 'axios'
-import store from '@/store/index.js'
 
 export const hueService = {
     getAllGroups,
@@ -7,10 +6,7 @@ export const hueService = {
 }
 
 function getAllGroups() {
-    const bridge = store.getters['hue/getActiveBridge']
-    const userToken = store.getters['hue/user']
-
-    return axios.get(`//${bridge.internalipaddress}/api/${userToken}/groups`)
+    return axios.get(`//##internalipaddress##/api/##usertoken##/groups`)
 }
 
 function getById() {

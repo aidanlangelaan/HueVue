@@ -17,10 +17,10 @@
                     <span>Home</span>
                 </span>
             </router-link>
-            <router-link to="/rooms" class="nav-item">
+            <router-link to="/groups" class="nav-item">
                 <span @click="navItemClicked()">
                     <b-icon icon="door-closed-fill"></b-icon>
-                    <span>Rooms</span>
+                    <span>Rooms & Zones</span>
                 </span>
             </router-link>
             <router-link to="/lights" class="nav-item">
