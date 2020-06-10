@@ -8,7 +8,8 @@ const state = () => ({
     activeBridge: {},
     user: '',
     rooms: [],
-    zones: []
+    zones: [],
+    lights: []
 })
 
 // getters
@@ -35,6 +36,10 @@ const getters = {
 
     getZones: state => {
         return state.zones
+    },
+
+    getLights: state => {
+        return state.lights
     }
 }
 
@@ -166,6 +171,22 @@ const actions = {
             .catch(error => {
                 console.log(error)
             })
+    },
+
+    /* LIGHTS */
+    fetchLights({ commit }) {
+        hueService
+            .getAllLights()
+            .then(response => {
+                if (response.status == 200) {
+                    const lights = Object.values(response.data)
+
+                    commit('setLights', lights)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 }
 
@@ -193,6 +214,10 @@ const mutations = {
 
     setZones(state, zones) {
         state.zones = zones
+    },
+
+    setLights(state, lights) {
+        state.lights = lights
     }
 }
 

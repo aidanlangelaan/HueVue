@@ -8,6 +8,14 @@
             <font-awesome-icon icon="bars" />
         </b-button>
 
+        <b-button
+            class="back-button"
+            v-if="showBackButton"
+            @click="backButtonClicked()"
+        >
+            <font-awesome-icon icon="angle-left" />
+        </b-button>
+
         <b-navbar-brand>{{ pageTitle }}</b-navbar-brand>
     </b-navbar>
 </template>
@@ -20,6 +28,10 @@ export default {
         hideMenuButton: {
             type: Boolean,
             default: false
+        },
+        showBackButton: {
+            type: Boolean,
+            default: false
         }
     },
     methods: {
@@ -28,6 +40,10 @@ export default {
                 'appstate/changeSideBarState',
                 !this.$store.getters['appstate/sideBarOpen']
             )
+        },
+
+        backButtonClicked() {
+            this.$router.go(-1)
         }
     }
 }
@@ -35,6 +51,10 @@ export default {
 
 <style scoped lang="scss">
 #page-nav {
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    top: 0;
     background-color: #3eaf7c !important;
 
     button.navbar-toggler {
@@ -52,12 +72,22 @@ export default {
             box-shadow: none;
         }
     }
+
+    button.back-button {
+        display: block;
+        color: white;
+        background: none;
+        border: none;
+        font-size: 23px;
+        padding: 0 43px 0 12px;
+    }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
     #page-nav {
-        button.navbar-toggler {
+        button.navbar-toggler,
+        button.back-button {
             display: none;
         }
     }

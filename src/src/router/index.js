@@ -23,15 +23,62 @@ const routes = [
     },
     {
         path: '/groups',
-        name: 'Rooms & Zones',
-        component: () => import('@/views/Groups.vue'),
-        meta: { authorize: true }
+        meta: { authorize: true },
+        component: () => import('@/views/groups/Group.vue'),
+        children: [
+            {
+                path: '',
+                name: 'groups',
+                component: () => import('@/views/groups/List.vue')
+            },
+            {
+                path: 'list',
+                name: 'groups.list',
+                component: () => import('@/views/groups/List.vue')
+            },
+            {
+                path: 'add-room',
+                name: 'groups.add-room',
+                component: () => import('@/views/groups/Add.vue')
+            },
+            {
+                path: 'add-zone',
+                name: 'groups.add-zone',
+                component: () => import('@/views/groups/Add.vue')
+            },
+            {
+                path: 'edit/:id',
+                name: 'groups.edit',
+                component: () => import('@/views/groups/Edit.vue')
+            }
+        ]
     },
     {
         path: '/lights',
-        name: 'Lights',
-        component: () => import('@/views/Lights.vue'),
-        meta: { authorize: true }
+        component: () => import('@/views/lights/Lights.vue'),
+        meta: { authorize: true },
+        children: [
+            {
+                path: '',
+                name: 'lights',
+                component: () => import('@/views/lights/List.vue')
+            },
+            {
+                path: 'list',
+                name: 'lights.list',
+                component: () => import('@/views/lights/List.vue')
+            },
+            {
+                path: 'add',
+                name: 'lights.add',
+                component: () => import('@/views/lights/Add.vue')
+            },
+            {
+                path: 'view/:id',
+                name: 'lights.view',
+                component: () => import('@/views/lights/View.vue')
+            }
+        ]
     },
     {
         path: '/scenes',

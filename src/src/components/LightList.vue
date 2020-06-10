@@ -1,58 +1,64 @@
 <template>
-    <b-card no-body header="Your zones" footer-tag="footer">
+    <b-card no-body header="Your lights">
         <b-list-group flush>
             <b-list-group-item
-                v-for="zone in zones"
-                :key="zone.name"
+                v-for="light in lights"
+                :key="light.name"
                 href="#"
                 class="group-item"
             >
                 <div class="group-icon">
-                    <img :src="getAreaIconClass(zone.class)" />
+                    A
                 </div>
                 <div class="group-description">
-                    <div class="name">{{ zone.name }}</div>
-                    <div class="light-count">
-                        {{ zone.lights.length }} Hue light<span
-                            v-if="zone.lights.length > 1"
-                            >s</span
-                        >
+                    <div class="name">{{ light.name }}</div>
+                    <div
+                        class="state-description"
+                        v-if="!light.state.reachable"
+                    >
+                        Unreachable
                     </div>
                 </div>
             </b-list-group-item>
         </b-list-group>
-        <template v-slot:footer>
-            <b-button>
-                Create new zone
-            </b-button>
-        </template>
     </b-card>
 </template>
 
 <script>
 export default {
-    name: 'Zones',
+    name: 'LightList',
     data() {
         return {
-            zones: [],
+            lights: [],
             unwatcher: ''
         }
     },
     methods: {
-        getZones() {
-            this.zones = this.$store.getters['hue/getZones']
+        getLights() {
+            this.lights = this.$store.getters['hue/getLights']
         },
 
-        getAreaIconClass(className) {
+        getLightIconClass(className) {
             return require(`../assets/hue-icons/area_${className.toLowerCase()}.png`)
+        },
+
+        addNewLight() {
+            this.$router.push({ name: 'lights.add' })
+        },
+
+        viewLight(light) {
+            this.$router.push({
+                name: 'lights.view',
+                params: { id: light.name }
+            })
         }
     },
     mounted() {
-        this.getZones()
+        this.getLights()
     },
     created() {
         this.unwatcher = this.$store.watch(
-            (state, getters) => getters.getZones,
+            (state, getters) => getters.getLights,
             (newValue, oldValue) => {
                 console.log(`Updating from ${oldValue} to ${newValue}`)
             }
@@ -106,8 +112,9 @@ export default {
                 font-size: 17px;
             }
 
-            .light-count {
+            .state-description {
                 font-size: 13px;
+                color: orange;
             }
         }
     }

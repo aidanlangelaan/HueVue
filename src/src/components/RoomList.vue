@@ -6,6 +6,7 @@
                 :key="room.name"
                 href="#"
                 class="group-item"
+                @click="editRoom(room)"
             >
                 <div class="group-icon">
                     <img :src="getAreaIconClass(room.class)" />
@@ -22,7 +23,7 @@
             </b-list-group-item>
         </b-list-group>
         <template v-slot:footer>
-            <b-button>
+            <b-button @click="createNewRoom">
                 Create new room
             </b-button>
         </template>
@@ -31,7 +32,7 @@
 
 <script>
 export default {
-    name: 'Rooms',
+    name: 'RoomList',
     data() {
         return {
             rooms: [],
@@ -45,6 +46,17 @@ export default {
 
         getAreaIconClass(className) {
             return require(`../assets/hue-icons/area_${className.toLowerCase()}.png`)
+        },
+
+        createNewRoom() {
+            this.$router.push({ name: 'groups.add-room' })
+        },
+
+        editRoom(room) {
+            this.$router.push({
+                name: 'groups.edit',
+                params: { id: room.name }
+            })
         }
     },
     mounted() {

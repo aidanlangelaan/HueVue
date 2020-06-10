@@ -26,7 +26,7 @@
             <router-link to="/lights" class="nav-item">
                 <span @click="navItemClicked()">
                     <img src="@/assets/images/hue-bulb-classic.png" />
-                    <span>Lights</span>
+                    <span>Light setup</span>
                 </span>
             </router-link>
             <router-link to="/scenes" class="nav-item">

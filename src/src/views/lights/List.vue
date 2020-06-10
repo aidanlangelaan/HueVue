@@ -1,35 +1,32 @@
 <template>
     <div class="page-body">
-        <nav-bar page-title="Rooms & Zones" class="page-header" />
+        <nav-bar page-title="Light setup" class="page-header" />
         <div class="page-content">
-            <rooms />
-            <zones />
+            <light-list />
         </div>
     </div>
 </template>
 
 <script>
 import NavBar from '@/components/NavBar'
-import Rooms from '@/components/Rooms'
-import Zones from '@/components/Zones'
+import LightList from '@/components/LightList'
 
 export default {
     components: {
         NavBar,
-        Rooms,
-        Zones
+        LightList
     },
     data() {
         return {}
     },
     methods: {
-        fetchGroups() {
-            // fetch the latest rooms
-            this.$store.dispatch('hue/fetchGroups')
+        fetchLights() {
+            // fetch the latest lights
+            this.$store.dispatch('hue/fetchLights')
         }
     },
     mounted: function() {
-        this.fetchGroups()
+        this.fetchLights()
     }
 }
 </script>
