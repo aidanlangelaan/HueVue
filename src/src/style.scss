@@ -12,7 +12,7 @@ body {
 }
 
 #left {
-    position: fixed;
+    position: absolute;
     top: 0;
     width: 0;
     height: 0%;
@@ -26,7 +26,7 @@ body {
 
 #right {
     padding: 0;
-    position: fixed;
+    position: absolute;
     width: 100%;
     left: 0;
     -webkit-transition: all 0.3s linear;
@@ -47,6 +47,7 @@ body {
 
         .page-content {
             padding: 15px 15px;
+            margin-top: 51px;
 
             button {
                 background-color: #3eaf7c;
