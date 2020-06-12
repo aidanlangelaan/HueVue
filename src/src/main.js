@@ -12,8 +12,10 @@ import './style.scss'
 // fontawsome
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 library.add(faBars)
 library.add(faAngleLeft)
+library.add(faInfoCircle)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

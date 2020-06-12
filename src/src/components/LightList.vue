@@ -6,9 +6,10 @@
                 :key="light.name"
                 href="#"
                 class="group-item"
+                @click="flashLight(light)"
             >
                 <div class="group-icon">
-                    A
+                    <img :src="getLightIconClass(light.config.archetype)" />
                 </div>
                 <div class="group-description">
                     <div class="name">{{ light.name }}</div>
@@ -18,6 +19,9 @@
                     >
                         Unreachable
                     </div>
+                </div>
+                <div class="group-action" @click.stop="viewLight">
+                    <font-awesome-icon icon="info-circle" />
                 </div>
             </b-list-group-item>
         </b-list-group>
@@ -38,12 +42,16 @@ export default {
             this.lights = this.$store.getters['hue/getLights']
         },
 
-        getLightIconClass(className) {
-            return require(`../assets/hue-icons/area_${className.toLowerCase()}.png`)
+        getLightIconClass(archetype) {
+            return require(`../assets/hue-icons/light_${archetype.toLowerCase()}.png`)
         },
 
         addNewLight() {
             this.$router.push({ name: 'lights.add' })
+        },
+
+        flashLight(light) {
+            console.log(light)
         },
 
         viewLight(light) {
@@ -94,19 +102,25 @@ export default {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
+        height: 85px;
 
         .group-icon {
-            flex: 3rem 0;
+            flex: 0 0 3rem;
+            display: flex;
+            align-items: center;
             filter: invert(1);
 
             img {
                 height: 30px;
-                position: relative;
-                top: 20%;
             }
         }
 
         .group-description {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            flex: auto;
+
             .name {
                 font-weight: bold;
                 font-size: 17px;
@@ -116,6 +130,14 @@ export default {
                 font-size: 13px;
                 color: orange;
             }
+        }
+
+        .group-action {
+            flex: 0 0 3rem;
+            align-items: center;
+            display: flex;
+            justify-content: flex-end;
+            font-size: 22px;
         }
     }
 
