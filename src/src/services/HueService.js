@@ -14,6 +14,12 @@ function getAllLights() {
     return axios.get(`//##internalipaddress##/api/##usertoken##/lights`)
 }
 
-function alterLightState() {
-    return axios.get(`//##internalipaddress##/api/##usertoken##/lights`)
+function alterLightState(id, on, bri) {
+    return axios.put(
+        `//##internalipaddress##/api/##usertoken##/lights/${id}/state`,
+        {
+            on: on,
+            bri: bri
+        }
+    )
 }

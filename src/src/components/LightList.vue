@@ -3,7 +3,7 @@
         <b-list-group flush>
             <b-list-group-item
                 v-for="light in lights"
-                :key="light.name"
+                :key="light.light_id"
                 class="group-item"
                 :style="{ backgroundColor: getBackgroundColor(light) }"
             >
@@ -37,20 +37,20 @@
                     <div class="group-action">
                         <b-form-group>
                             <b-form-checkbox
-                                :value="light.state.on"
+                                v-model="light.state.on"
                                 switch
                                 size="lg"
-                                @change="changeLightState(light)"
+                                @change="toggleOnState(light)"
                             />
                         </b-form-group>
                     </div>
                 </div>
                 <div class="bottom" v-if="light.state.on">
                     <vue-slider
-                        :value="light.state.bri"
+                        v-model="light.state.bri"
                         :tooltip="'none'"
                         :min="1"
-                        :max="255"
+                        :max="254"
                         :interval="1"
                         @change="changeLightState(light)"
                     ></vue-slider>
@@ -71,17 +71,19 @@ export default {
         VueSlider
     },
     data() {
-        return {
-            lights: [],
-            unwatcher: ''
+        return {}
+    },
+    computed: {
+        lights: {
+            get() {
+                return this.$store.getters['hueLights/getLights']
+            },
+            set(lights) {
+                this.$store.commit('hueLights/setLights', lights)
+            }
         }
     },
-    watch: {},
     methods: {
-        getLights() {
-            this.lights = this.$store.getters['hueLights/getLights']
-        },
-
         getLightIconClass(archetype) {
             return require(`../assets/hue-icons/light_${archetype.toLowerCase()}.png`)
         },
@@ -119,8 +121,21 @@ export default {
             }
         },
 
+        toggleOnState(light) {
+            // flip value as we now get the old value instead of the new
+            light.state.on = !light.state.on
+
+            this.changeLightState(light)
+        },
+
         changeLightState(light) {
-            console.log('ON: ' + light.state.on + ', BRI: ' + light.state.bri)
+            this.$store
+                .dispatch('hueLights/setLightState', light)
+                .then(result => {
+                    if (result) {
+                        console.log('state updated')
+                    }
+                })
         },
 
         addNewLight() {
@@ -138,22 +153,7 @@ export default {
             })
         }
     },
-    mounted() {
-        this.getLights()
-    },
-    created() {
-        this.unwatcher = this.$store.watch(
-            (state, getters) => getters.getLights,
-            (newValue, oldValue) => {
-                console.log(`Updating from ${oldValue} to ${newValue}`)
-            }
-        )
-    },
-    beforeDestroy() {
-        if (this.unwatcher != '') {
-            this.unwatcher()
-        }
-    }
+    mounted() {}
 }
 </script>
 

@@ -27,7 +27,12 @@ const actions = {
                 let zones = []
 
                 if (response.status == 200) {
-                    const groups = Object.values(response.data)
+                    const groups = []
+                    Object.keys(response.data).forEach(d => {
+                        let group = response.data[d]
+                        group.group_id = parseInt(d, 10)
+                        groups.push(group)
+                    })
 
                     // eslint-disable-next-line no-unused-vars
                     groups.reduce((accumulator, currentValue) => {
