@@ -40,7 +40,7 @@
                                 v-model="light.state.on"
                                 switch
                                 size="lg"
-                                @change="toggleOnState(light)"
+                                @input="changeLightState(light)"
                             />
                         </b-form-group>
                     </div>
@@ -119,13 +119,6 @@ export default {
             } else {
                 return 'white'
             }
-        },
-
-        toggleOnState(light) {
-            // flip value as we now get the old value instead of the new
-            light.state.on = !light.state.on
-
-            this.changeLightState(light)
         },
 
         changeLightState(light) {
