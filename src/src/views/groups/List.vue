@@ -2,22 +2,22 @@
     <div class="page-body">
         <nav-bar page-title="Rooms & Zones" class="page-header" />
         <div class="page-content">
-            <room-list />
-            <zone-list />
+            <rooms />
+            <zones />
         </div>
     </div>
 </template>
 
 <script>
 import NavBar from '@/components/NavBar'
-import RoomList from '@/components/RoomList'
-import ZoneList from '@/components/ZoneList'
+import Rooms from '@/components/Rooms'
+import Zones from '@/components/Zones'
 
 export default {
     components: {
         NavBar,
-        RoomList,
-        ZoneList
+        Rooms,
+        Zones
     },
     data() {
         return {}

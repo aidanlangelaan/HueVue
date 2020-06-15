@@ -135,10 +135,6 @@ export default {
             this.$router.push({ name: 'lights.add' })
         },
 
-        flashLight(light) {
-            console.log(light)
-        },
-
         viewLight(light) {
             this.$router.push({
                 name: 'lights.view',
@@ -187,10 +183,10 @@ export default {
             height: 70px;
 
             .group-icon {
-                flex: 0 0 3rem;
-                display: flex;
-                align-items: center;
                 filter: invert(1);
+                flex: 0 0 3rem;
+                align-items: center;
+                display: flex;
 
                 img {
                     height: 30px;
@@ -210,7 +206,6 @@ export default {
 
                 .state-description {
                     font-size: 13px;
-                    color: orange;
                 }
             }
 

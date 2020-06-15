@@ -1,0 +1,171 @@
+<template>
+    <b-card no-body header="Your groups" footer-tag="footer">
+        <group-list :groups="rooms" />
+        <template v-slot:footer>
+            <b-button @click="createNewgroup">Create new group</b-button>
+        </template>
+    </b-card>
+</template>
+
+<script>
+import GroupList from '@/components/GroupList'
+
+export default {
+    name: 'Rooms',
+    components: {
+        GroupList
+    },
+    props: {
+        groups: {
+            type: Array,
+            default: () => []
+        }
+    },
+    data() {
+        return {}
+    },
+    computed: {
+        rooms: {
+            get() {
+                return this.$store.getters['hueGroups/getRooms']
+            },
+            set(rooms) {
+                this.$store.commit('hueGroups/setRooms', rooms)
+            }
+        }
+    },
+    methods: {
+        createNewgroup() {
+            this.$router.push({ name: 'groups.add-group' })
+        },
+
+        editgroup(group) {
+            this.$router.push({
+                name: 'groups.edit',
+                params: { id: group.group_id }
+            })
+        }
+    },
+    mounted() {}
+}
+</script>
+
+<style scoped lang="scss">
+.card {
+    background: none;
+    border: none;
+    margin-bottom: 0 !important;
+
+    .card-header {
+        background: none;
+        border: none;
+        color: #333;
+        font-size: 16px;
+        padding-bottom: 5px;
+        padding-top: 0;
+    }
+
+    .list-group {
+        border-radius: calc(0.25rem - 1px);
+    }
+
+    .group-item {
+        border-radius: calc(0.25rem - 1px);
+        margin-bottom: 10px;
+        padding-bottom: 0;
+        padding-top: 0;
+
+        &:last-child {
+            margin-bottom: 0;
+            border-width: 0 0 1px;
+        }
+
+        .top {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            height: 70px;
+
+            .group-icon {
+                filter: invert(1);
+                flex: 0 0 3rem;
+                align-items: center;
+                display: flex;
+
+                img {
+                    height: 30px;
+                }
+            }
+
+            .group-description {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                flex: auto;
+
+                .name {
+                    font-weight: bold;
+                    font-size: 17px;
+                }
+
+                .light-count {
+                    font-size: 13px;
+                }
+            }
+
+            .group-action {
+                flex: 0 0 3rem;
+                align-items: center;
+                display: flex;
+                justify-content: flex-end;
+                font-size: 22px;
+
+                .form-group {
+                    margin: 0;
+                    .custom-control.custom-switch {
+                        /deep/ .custom-control-label::before {
+                            border: none;
+                            background-color: rgba(0, 0, 0, 0.3);
+                        }
+
+                        /deep/ .custom-control-label::after {
+                            background-color: #fff;
+                        }
+                    }
+                }
+            }
+        }
+
+        .bottom {
+            height: 30px;
+
+            .vue-slider {
+                height: 15px !important;
+
+                /deep/ .vue-slider-rail {
+                    background: rgba(255, 255, 255, 0.4);
+
+                    .vue-slider-process {
+                        background: linear-gradient(
+                            90deg,
+                            rgba(255, 255, 255, 0.1) 0%,
+                            rgba(255, 255, 255, 1) 100%
+                        );
+                    }
+
+                    .vue-slider-dot {
+                        width: 20px !important;
+                        height: 20px !important;
+                    }
+                }
+            }
+        }
+    }
+
+    .card-footer {
+        background: none;
+        border: none;
+        padding-top: 15px;
+    }
+}
+</style>
