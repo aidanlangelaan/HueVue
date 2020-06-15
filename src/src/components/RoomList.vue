@@ -3,10 +3,9 @@
         <b-list-group flush>
             <b-list-group-item
                 v-for="room in rooms"
-                :key="room.name"
+                :key="room.group_id"
                 href="#"
                 class="group-item"
-                @click="editRoom(room)"
             >
                 <div class="group-icon">
                     <img :src="getAreaIconClass(room.class)" />
@@ -31,19 +30,29 @@
 </template>
 
 <script>
+//import colorConverter from '@/helpers/hueColorConverter'
+//import VueSlider from 'vue-slider-component'
+//import 'vue-slider-component/theme/default.css'
+
 export default {
     name: 'RoomList',
+    components: {
+        //VueSlider
+    },
     data() {
-        return {
-            rooms: [],
-            unwatcher: ''
+        return {}
+    },
+    computed: {
+        rooms: {
+            get() {
+                return this.$store.getters['hueGroups/getRooms']
+            },
+            set(rooms) {
+                this.$store.commit('hueGroups/setRooms', rooms)
+            }
         }
     },
     methods: {
-        getRooms() {
-            this.rooms = this.$store.getters['hueGroups/getRooms']
-        },
-
         getAreaIconClass(className) {
             return require(`../assets/hue-icons/area_${className.toLowerCase()}.png`)
         },
@@ -55,26 +64,11 @@ export default {
         editRoom(room) {
             this.$router.push({
                 name: 'groups.edit',
-                params: { id: room.name }
+                params: { id: room.group_id }
             })
         }
     },
-    mounted() {
-        this.getRooms()
-    },
-    created() {
-        this.unwatcher = this.$store.watch(
-            (state, getters) => getters.getRooms,
-            (newValue, oldValue) => {
-                console.log(`Updating from ${oldValue} to ${newValue}`)
-            }
-        )
-    },
-    beforeDestroy() {
-        if (this.unwatcher != '') {
-            this.unwatcher()
-        }
-    }
+    mounted() {}
 }
 </script>
 

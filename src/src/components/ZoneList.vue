@@ -3,10 +3,9 @@
         <b-list-group flush>
             <b-list-group-item
                 v-for="zone in zones"
-                :key="zone.name"
+                :key="zone.group_id"
                 href="#"
                 class="group-item"
-                @click="editZone(zone)"
             >
                 <div class="group-icon">
                     <img :src="getAreaIconClass(zone.class)" />
@@ -31,19 +30,29 @@
 </template>
 
 <script>
+//import colorConverter from '@/helpers/hueColorConverter'
+//import VueSlider from 'vue-slider-component'
+//import 'vue-slider-component/theme/default.css'
+
 export default {
     name: 'ZonesList',
+    components: {
+        //VueSlider
+    },
     data() {
-        return {
-            zones: [],
-            unwatcher: ''
+        return {}
+    },
+    computed: {
+        zones: {
+            get() {
+                return this.$store.getters['hueGroups/getZones']
+            },
+            set(zones) {
+                this.$store.commit('hueGroups/setZones', zones)
+            }
         }
     },
     methods: {
-        getZones() {
-            this.zones = this.$store.getters['hueGroups/getZones']
-        },
-
         getAreaIconClass(className) {
             return require(`../assets/hue-icons/area_${className.toLowerCase()}.png`)
         },
@@ -51,7 +60,7 @@ export default {
         editZone(zone) {
             this.$router.push({
                 name: 'groups.edit',
-                params: { name: zone.name }
+                params: { id: zone.group_id }
             })
         },
 
@@ -59,22 +68,7 @@ export default {
             this.$router.push({ id: 'groups.add-zone' })
         }
     },
-    mounted() {
-        this.getZones()
-    },
-    created() {
-        this.unwatcher = this.$store.watch(
-            (state, getters) => getters.getZones,
-            (newValue, oldValue) => {
-                console.log(`Updating from ${oldValue} to ${newValue}`)
-            }
-        )
-    },
-    beforeDestroy() {
-        if (this.unwatcher != '') {
-            this.unwatcher()
-        }
-    }
+    mounted() {}
 }
 </script>
 
