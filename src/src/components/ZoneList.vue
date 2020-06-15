@@ -41,7 +41,7 @@ export default {
     },
     methods: {
         getZones() {
-            this.zones = this.$store.getters['hue/getZones']
+            this.zones = this.$store.getters['hueGroups/getZones']
         },
 
         getAreaIconClass(className) {

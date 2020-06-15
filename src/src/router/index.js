@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '@/views/Home.vue'
 
 Vue.use(VueRouter)
 
@@ -8,18 +7,12 @@ const routes = [
     {
         path: '/',
         name: 'Root',
-        redirect: { name: 'Home' }
+        redirect: { name: 'groups' }
     },
     {
         path: '/setup',
-        name: 'Setup',
+        name: 'setup',
         component: () => import('@/views/Setup.vue')
-    },
-    {
-        path: '/home',
-        name: 'Home',
-        component: Home,
-        meta: { authorize: true }
     },
     {
         path: '/groups',
@@ -82,13 +75,13 @@ const routes = [
     },
     {
         path: '/scenes',
-        name: 'Scenes',
+        name: 'scenes',
         component: () => import('@/views/Scenes.vue'),
         meta: { authorize: true }
     },
     {
         path: '/about',
-        name: 'About',
+        name: 'about',
         component: () => import('@/views/About.vue'),
         meta: { authorize: true }
     }

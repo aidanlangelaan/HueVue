@@ -1,6 +1,6 @@
 <template>
     <div class="page-body">
-        <nav-bar page-title="Light setup" class="page-header" />
+        <nav-bar page-title="Lights" class="page-header" />
         <div class="page-content">
             <light-list />
         </div>
@@ -22,7 +22,7 @@ export default {
     methods: {
         fetchLights() {
             // fetch the latest lights
-            this.$store.dispatch('hue/fetchLights')
+            this.$store.dispatch('hueLights/fetchAllLights')
         }
     },
     mounted: function() {

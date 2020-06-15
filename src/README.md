@@ -1,24 +1,21 @@
 # huevue
 
-## Project setup
-```
-npm install
-```
+# todo
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+-   Rooms:
+    -   Add / Edit
+    -   Alter light state inside group
+-   Lights:
+    -   Add / Edit
+    -   Alter color
+-   About content
+-   ALL: responsive styling > mobile
 
-### Compiles and minifies for production
-```
-npm run build
-```
+# ideas
 
-### Lints and fixes files
-```
-npm run lint
-```
+-   Split the displayed lights in lightList into a seperate component and use watchers to alter the state
+-   DISCO MODE!!!
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# bugs
+
+-   sidebar not keeping to the correct size (since change from position fixed?)

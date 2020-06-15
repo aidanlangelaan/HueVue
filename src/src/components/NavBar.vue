@@ -53,7 +53,7 @@ export default {
 #page-nav {
     position: fixed;
     width: 100%;
-    z-index: 1;
+    z-index: 9;
     top: 0;
     background-color: #3eaf7c !important;
 

@@ -5,6 +5,8 @@ import httpInterceptor from '@/helpers/httpInterceptor'
 
 import appstate from './modules/appstate'
 import hue from './modules/hue'
+import hueLights from './modules/hueLights'
+import hueGroups from './modules/hueGroups'
 
 Vue.use(Vuex)
 
@@ -22,7 +24,9 @@ const vuexLocalStorage = new VuexPersist({
 export default new Vuex.Store({
     modules: {
         appstate,
-        hue
+        hue,
+        hueGroups,
+        hueLights
     },
     plugins: [vuexLocalStorage.plugin, httpInterceptor]
 })

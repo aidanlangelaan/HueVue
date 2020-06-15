@@ -4,24 +4,56 @@
             <b-list-group-item
                 v-for="light in lights"
                 :key="light.name"
-                href="#"
                 class="group-item"
-                @click="flashLight(light)"
+                :style="{ backgroundColor: getBackgroundColor(light) }"
             >
-                <div class="group-icon">
-                    <img :src="getLightIconClass(light.config.archetype)" />
-                </div>
-                <div class="group-description">
-                    <div class="name">{{ light.name }}</div>
-                    <div
-                        class="state-description"
-                        v-if="!light.state.reachable"
-                    >
-                        Unreachable
+                <div class="top">
+                    <div class="group-icon">
+                        <img
+                            :src="getLightIconClass(light.config.archetype)"
+                            :style="{
+                                filter:
+                                    getForgroundColor(light) == 'white'
+                                        ? 'invert(1)'
+                                        : 'none'
+                            }"
+                        />
+                    </div>
+                    <div class="group-description">
+                        <div
+                            class="name"
+                            :style="{ color: getForgroundColor(light) }"
+                        >
+                            {{ light.name }}
+                        </div>
+                        <div
+                            class="state-description"
+                            v-if="!light.state.reachable"
+                            :style="{ color: getForgroundColor(light) }"
+                        >
+                            Unreachable
+                        </div>
+                    </div>
+                    <div class="group-action">
+                        <b-form-group>
+                            <b-form-checkbox
+                                :value="light.state.on"
+                                switch
+                                size="lg"
+                                @change="changeLightState(light)"
+                            />
+                        </b-form-group>
                     </div>
                 </div>
-                <div class="group-action" @click.stop="viewLight">
-                    <font-awesome-icon icon="info-circle" />
+                <div class="bottom" v-if="light.state.on">
+                    <vue-slider
+                        :value="light.state.bri"
+                        :tooltip="'none'"
+                        :min="1"
+                        :max="255"
+                        :interval="1"
+                        @change="changeLightState(light)"
+                    ></vue-slider>
                 </div>
             </b-list-group-item>
         </b-list-group>
@@ -29,21 +61,66 @@
 </template>
 
 <script>
+import colorConverter from '@/helpers/hueColorConverter'
+import VueSlider from 'vue-slider-component'
+import 'vue-slider-component/theme/default.css'
+
 export default {
     name: 'LightList',
+    components: {
+        VueSlider
+    },
     data() {
         return {
             lights: [],
             unwatcher: ''
         }
     },
+    watch: {},
     methods: {
         getLights() {
-            this.lights = this.$store.getters['hue/getLights']
+            this.lights = this.$store.getters['hueLights/getLights']
         },
 
         getLightIconClass(archetype) {
             return require(`../assets/hue-icons/light_${archetype.toLowerCase()}.png`)
+        },
+
+        getBackgroundColor(light) {
+            if (light.state.on) {
+                let rgb = colorConverter.calculateRGB(
+                    light.state.xy,
+                    light.state.bri,
+                    light.modelid
+                )
+
+                let hex = colorConverter.RGBToHEX(rgb.r, rgb.g, rgb.b)
+                return hex
+            } else {
+                return '#484848'
+            }
+        },
+
+        getForgroundColor(light) {
+            if (light.state.on) {
+                let rgb = colorConverter.calculateRGB(
+                    light.state.xy,
+                    light.state.bri,
+                    light.modelid
+                )
+
+                if (rgb.b > 225) {
+                    return 'white'
+                } else {
+                    return 'black'
+                }
+            } else {
+                return 'white'
+            }
+        },
+
+        changeLightState(light) {
+            console.log('ON: ' + light.state.on + ', BRI: ' + light.state.bri)
         },
 
         addNewLight() {
@@ -84,6 +161,7 @@ export default {
 .card {
     background: none;
     border: none;
+    margin-bottom: 0 !important;
 
     .card-header {
         background: none;
@@ -99,45 +177,96 @@ export default {
     }
 
     .group-item {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        height: 85px;
+        border-radius: calc(0.25rem - 1px);
+        margin-bottom: 10px;
+        padding-bottom: 0;
+        padding-top: 0;
 
-        .group-icon {
-            flex: 0 0 3rem;
+        &:last-child {
+            margin-bottom: 0;
+            border-width: 0 0 1px;
+        }
+
+        .top {
             display: flex;
-            align-items: center;
-            filter: invert(1);
+            flex-direction: row;
+            flex-wrap: nowrap;
+            height: 70px;
 
-            img {
-                height: 30px;
+            .group-icon {
+                flex: 0 0 3rem;
+                display: flex;
+                align-items: center;
+                filter: invert(1);
+
+                img {
+                    height: 30px;
+                }
+            }
+
+            .group-description {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                flex: auto;
+
+                .name {
+                    font-weight: bold;
+                    font-size: 17px;
+                }
+
+                .state-description {
+                    font-size: 13px;
+                    color: orange;
+                }
+            }
+
+            .group-action {
+                flex: 0 0 3rem;
+                align-items: center;
+                display: flex;
+                justify-content: flex-end;
+                font-size: 22px;
+
+                .form-group {
+                    margin: 0;
+                    .custom-control.custom-switch {
+                        /deep/ .custom-control-label::before {
+                            border: none;
+                            background-color: rgba(0, 0, 0, 0.3);
+                        }
+
+                        /deep/ .custom-control-label::after {
+                            background-color: #fff;
+                        }
+                    }
+                }
             }
         }
 
-        .group-description {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            flex: auto;
+        .bottom {
+            height: 30px;
 
-            .name {
-                font-weight: bold;
-                font-size: 17px;
+            .vue-slider {
+                height: 15px !important;
+
+                /deep/ .vue-slider-rail {
+                    background: rgba(255, 255, 255, 0.4);
+
+                    .vue-slider-process {
+                        background: linear-gradient(
+                            90deg,
+                            rgba(255, 255, 255, 0.1) 0%,
+                            rgba(255, 255, 255, 1) 100%
+                        );
+                    }
+
+                    .vue-slider-dot {
+                        width: 20px !important;
+                        height: 20px !important;
+                    }
+                }
             }
-
-            .state-description {
-                font-size: 13px;
-                color: orange;
-            }
-        }
-
-        .group-action {
-            flex: 0 0 3rem;
-            align-items: center;
-            display: flex;
-            justify-content: flex-end;
-            font-size: 22px;
         }
     }
 

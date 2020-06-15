@@ -37,7 +37,7 @@ export default {
             this.setupStage += 1
 
             if (this.setupStage == 3) {
-                this.$router.push('home')
+                this.$router.push('groups')
             }
         },
         previousStep() {

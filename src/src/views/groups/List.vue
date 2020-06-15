@@ -25,7 +25,7 @@ export default {
     methods: {
         fetchGroups() {
             // fetch the latest rooms
-            this.$store.dispatch('hue/fetchGroups')
+            this.$store.dispatch('hueGroups/fetchAllGroups')
         }
     },
     mounted: function() {

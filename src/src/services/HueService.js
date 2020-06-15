@@ -2,7 +2,8 @@ import axios from 'axios'
 
 export const hueService = {
     getAllGroups,
-    getAllLights
+    getAllLights,
+    alterLightState
 }
 
 function getAllGroups() {
@@ -10,5 +11,9 @@ function getAllGroups() {
 }
 
 function getAllLights() {
+    return axios.get(`//##internalipaddress##/api/##usertoken##/lights`)
+}
+
+function alterLightState() {
     return axios.get(`//##internalipaddress##/api/##usertoken##/lights`)
 }

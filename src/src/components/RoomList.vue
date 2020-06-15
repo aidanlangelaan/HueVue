@@ -41,7 +41,7 @@ export default {
     },
     methods: {
         getRooms() {
-            this.rooms = this.$store.getters['hue/getRooms']
+            this.rooms = this.$store.getters['hueGroups/getRooms']
         },
 
         getAreaIconClass(className) {

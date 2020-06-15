@@ -11,12 +11,6 @@
             </router-link>
         </div>
         <nav>
-            <router-link to="/home" class="nav-item">
-                <span @click="navItemClicked()">
-                    <b-icon icon="house-fill"></b-icon>
-                    <span>Home</span>
-                </span>
-            </router-link>
             <router-link to="/groups" class="nav-item">
                 <span @click="navItemClicked()">
                     <b-icon icon="door-closed-fill"></b-icon>
@@ -26,7 +20,7 @@
             <router-link to="/lights" class="nav-item">
                 <span @click="navItemClicked()">
                     <img src="@/assets/images/hue-bulb-classic.png" />
-                    <span>Light setup</span>
+                    <span>Lights</span>
                 </span>
             </router-link>
             <router-link to="/scenes" class="nav-item">
