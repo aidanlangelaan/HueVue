@@ -1,6 +1,6 @@
 <template>
     <b-card no-body header="Your groups" footer-tag="footer">
-        <group-list :groups="rooms" />
+        <group-list :groups="rooms" @click="viewGroup" />
         <template v-slot:footer>
             <b-button @click="createNewgroup">Create new group</b-button>
         </template>
@@ -35,8 +35,15 @@ export default {
         }
     },
     methods: {
+        viewGroup(groupId) {
+            this.$router.push({
+                name: 'groups.view',
+                params: { id: groupId }
+            })
+        },
+
         createNewgroup() {
-            this.$router.push({ name: 'groups.add-group' })
+            this.$router.push({ name: 'groups.add-room' })
         },
 
         editgroup(group) {

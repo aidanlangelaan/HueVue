@@ -2,18 +2,44 @@ import { hueService } from '@/services/HueService'
 
 // initial state
 const state = () => ({
-    rooms: [],
-    zones: []
+    groups: []
 })
 
 // getters
 const getters = {
+    getGroups: state => {
+        return state.groups
+    },
+
+    getGroup: state => id => {
+        const index = state.groups.findIndex(g => g.group_id === id)
+        return state.groups[index]
+    },
+
     getRooms: state => {
-        return state.rooms
+        const rooms = []
+        state.groups.reduce((accumulator, currentValue) => {
+            if (currentValue.type.toLowerCase() == 'room') {
+                rooms.push(currentValue)
+            }
+
+            return currentValue
+        }, {})
+
+        return rooms
     },
 
     getZones: state => {
-        return state.zones
+        const zones = []
+        state.groups.reduce((accumulator, currentValue) => {
+            if (currentValue.type.toLowerCase() == 'zone') {
+                zones.push(currentValue)
+            }
+
+            return currentValue
+        }, {})
+
+        return zones
     }
 }
 
@@ -23,9 +49,6 @@ const actions = {
         hueService
             .getAllGroups()
             .then(response => {
-                let rooms = []
-                let zones = []
-
                 if (response.status == 200) {
                     const groups = []
                     Object.keys(response.data).forEach(d => {
@@ -34,19 +57,7 @@ const actions = {
                         groups.push(group)
                     })
 
-                    // eslint-disable-next-line no-unused-vars
-                    groups.reduce((accumulator, currentValue) => {
-                        if (currentValue.type.toLowerCase() == 'room') {
-                            rooms.push(currentValue)
-                        } else if (currentValue.type.toLowerCase() == 'zone') {
-                            zones.push(currentValue)
-                        }
-
-                        return currentValue
-                    }, {})
-
-                    commit('setRooms', rooms)
-                    commit('setZones', zones)
+                    commit('setGroups', groups)
                 }
             })
             .catch(error => {
@@ -57,6 +68,15 @@ const actions = {
 
 // mutations
 const mutations = {
+    setGroups(state, groups) {
+        state.groups = groups
+    },
+
+    setGroup(state, group) {
+        const index = state.groups.findIndex(g => g.group_id === group.group_id)
+        state.groups[index] = group
+    },
+
     setRooms(state, rooms) {
         state.rooms = rooms
     },

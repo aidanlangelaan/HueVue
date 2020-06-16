@@ -9,6 +9,11 @@ const state = () => ({
 const getters = {
     getLights: state => {
         return state.lights
+    },
+
+    getLight: state => id => {
+        const index = state.groups.findIndex(l => l.light_id === id)
+        return state.lights[index]
     }
 }
 

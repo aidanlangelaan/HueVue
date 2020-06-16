@@ -30,6 +30,11 @@ const routes = [
                 component: () => import('@/views/groups/List.vue')
             },
             {
+                path: 'view/:id',
+                name: 'groups.view',
+                component: () => import('@/views/groups/View.vue')
+            },
+            {
                 path: 'add-room',
                 name: 'groups.add-room',
                 component: () => import('@/views/groups/Add.vue')
@@ -62,14 +67,19 @@ const routes = [
                 component: () => import('@/views/lights/List.vue')
             },
             {
+                path: 'view/:id',
+                name: 'lights.view',
+                component: () => import('@/views/lights/View.vue')
+            },
+            {
                 path: 'add',
                 name: 'lights.add',
                 component: () => import('@/views/lights/Add.vue')
             },
             {
-                path: 'view/:id',
-                name: 'lights.view',
-                component: () => import('@/views/lights/View.vue')
+                path: 'edit/:id',
+                name: 'lights.edit',
+                component: () => import('@/views/lights/Edit.vue')
             }
         ]
     },

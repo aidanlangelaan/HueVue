@@ -1,8 +1,8 @@
 <template>
     <b-card no-body header="Your zones" footer-tag="footer">
-        <group-list :groups="zones" />
+        <group-list :groups="zones" @click="viewGroup" />
         <template v-slot:footer>
-            <b-button @click="createNewZone">Create new zone</b-button>
+            <b-button @click="createNewgroup">Create new zone</b-button>
         </template>
     </b-card>
 </template>
@@ -35,14 +35,21 @@ export default {
         }
     },
     methods: {
-        createNewZone() {
-            this.$router.push({ id: 'groups.add-zone' })
+        viewGroup(groupId) {
+            this.$router.push({
+                name: 'groups.view',
+                params: { id: groupId }
+            })
         },
 
-        editZone(zone) {
+        createNewgroup() {
+            this.$router.push({ name: 'groups.add-zone' })
+        },
+
+        editgroup(group) {
             this.$router.push({
                 name: 'groups.edit',
-                params: { id: zone.group_id }
+                params: { id: group.group_id }
             })
         }
     },

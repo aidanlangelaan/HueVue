@@ -7,31 +7,36 @@
             :style="{ background: getBackgroundColor(group) }"
         >
             <div class="top">
-                <div class="group-icon">
-                    <img
-                        :src="getAreaIconClass(group.class)"
-                        :style="{
+                <div class="group-info" @click="groupClicked(group)">
+                    <div class="group-icon">
+                        <img
+                            :src="getAreaIconClass(group.class)"
+                            :style="{
                             filter:
                                 getForgroundColor(group) == 'white'
                                     ? 'invert(1)'
                                     : 'none'
                         }"
-                    />
-                </div>
-                <div class="group-description">
-                    <div class="name" :style="{ color: getForgroundColor(group) }">{{ group.name }}</div>
-                    <div class="light-count" :style="{ color: getForgroundColor(group) }">
-                        <span v-if="group.state.all_on">All lights are on</span>
+                        />
+                    </div>
+                    <div class="group-description">
+                        <div
+                            class="name"
+                            :style="{ color: getForgroundColor(group) }"
+                        >{{ group.name }}</div>
+                        <div class="light-count" :style="{ color: getForgroundColor(group) }">
+                            <span v-if="group.state.all_on">All lights are on</span>
 
-                        <span
-                            v-if="!group.state.all_on && group.state.any_on && getActiveLightCount(group) > 1"
-                        >{{ getActiveLightCount(group) }} lights are on</span>
+                            <span
+                                v-if="!group.state.all_on && group.state.any_on && getActiveLightCount(group) > 1"
+                            >{{ getActiveLightCount(group) }} lights are on</span>
 
-                        <span
-                            v-if="!group.state.all_on && group.state.any_on && getActiveLightCount(group) == 1"
-                        >{{ getActiveLightCount(group) }} light is on</span>
+                            <span
+                                v-if="!group.state.all_on && group.state.any_on && getActiveLightCount(group) == 1"
+                            >{{ getActiveLightCount(group) }} light is on</span>
 
-                        <span v-if="!group.state.any_on">All lights are off</span>
+                            <span v-if="!group.state.any_on">All lights are off</span>
+                        </div>
                     </div>
                 </div>
                 <div class="group-action">
@@ -187,6 +192,14 @@ export default {
                 light.state.on = group.state.any_on
             })
 
+            if (!group.state.any_on) {
+                group.state.all_on = false
+            } else {
+                group.state.all_on = true
+            }
+
+            this.$store.commit('hueGroups/setGroup', group)
+
             this.changeLightState(activeLights)
         },
 
@@ -217,7 +230,7 @@ export default {
                     l => l.light_id === parseInt(d, 10)
                 )
                 const light = this.lights[index]
-                if (light.state.on) {
+                if (light && light.state.on) {
                     activeLights.push(light)
                 }
             })
@@ -245,6 +258,10 @@ export default {
                     light
                 )
             })
+        },
+
+        groupClicked(group) {
+            this.$emit('click', group.group_id)
         }
     },
     mounted() {
@@ -272,33 +289,40 @@ export default {
     .top {
         display: flex;
         flex-direction: row;
-        flex-wrap: nowrap;
-        height: 70px;
 
-        .group-icon {
-            filter: invert(1);
-            flex: 0 0 3rem;
-            align-items: center;
+        .group-info {
             display: flex;
-
-            img {
-                height: 30px;
-            }
-        }
-
-        .group-description {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            min-height: 70px;
             flex: auto;
+            cursor: pointer;
 
-            .name {
-                font-weight: bold;
-                font-size: 17px;
+            .group-icon {
+                filter: invert(1);
+                flex: 0 0 3rem;
+                align-items: center;
+                display: flex;
+
+                img {
+                    height: 30px;
+                }
             }
 
-            .light-count {
-                font-size: 13px;
+            .group-description {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                flex: auto;
+
+                .name {
+                    font-weight: bold;
+                    font-size: 17px;
+                }
+
+                .light-count {
+                    font-size: 13px;
+                }
             }
         }
 
@@ -312,13 +336,16 @@ export default {
             .form-group {
                 margin: 0;
                 .custom-control.custom-switch {
+                    cursor: pointer;
                     /deep/ .custom-control-label::before {
                         border: none;
                         background-color: rgba(0, 0, 0, 0.3);
+                        cursor: pointer;
                     }
 
                     /deep/ .custom-control-label::after {
                         background-color: #fff;
+                        cursor: pointer;
                     }
                 }
             }

@@ -13,8 +13,8 @@
 
 # ideas
 
--   Split the displayed lights in lightList into a seperate component and use watchers to alter the state
--   Split the displayed groups in roomList/zoneList into a seperate component and use watchers to alter the state
+-   Save references to lights into the group state so groups are automatically updated when lights are turned off by other groups.
+-   Split the displayed lights in lightList into a seperate component and use watchers to alter the state.
 -   DISCO MODE!!!
 
 # bugs
