@@ -15,11 +15,16 @@ function getAllLights() {
 }
 
 function alterLightState(id, on, bri) {
+    let data = {}
+    if (typeof on == 'boolean') {
+        data.on = on
+    }
+    if (typeof bri == 'number') {
+        data.bri = bri
+    }
+
     return axios.put(
         `//##internalipaddress##/api/##usertoken##/lights/${id}/state`,
-        {
-            on: on,
-            bri: bri
-        }
+        data
     )
 }

@@ -23,16 +23,12 @@
                         <div
                             class="name"
                             :style="{ color: getForgroundColor(light) }"
-                        >
-                            {{ light.name }}
-                        </div>
+                        >{{ light.name }}</div>
                         <div
                             class="state-description"
                             v-if="!light.state.reachable"
                             :style="{ color: getForgroundColor(light) }"
-                        >
-                            Unreachable
-                        </div>
+                        >Unreachable</div>
                     </div>
                     <div class="group-action">
                         <b-form-group>
@@ -49,6 +45,9 @@
                     <vue-slider
                         v-model="light.state.bri"
                         :tooltip="'none'"
+                        :silent="true"
+                        :contained="true"
+                        :clickable="false"
                         :min="1"
                         :max="254"
                         :interval="1"

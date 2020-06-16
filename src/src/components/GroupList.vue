@@ -40,7 +40,7 @@
                             v-model="group.state.any_on"
                             switch
                             size="lg"
-                            @input="changeLightState(group)"
+                            @input="toggleOnState(group)"
                         />
                     </b-form-group>
                 </div>
@@ -48,11 +48,15 @@
             <div class="bottom" v-if="group.state.any_on">
                 <vue-slider
                     :value="getBrightness(group)"
+                    v-model="group.state.bri"
                     :tooltip="'none'"
+                    :silent="true"
+                    :contained="true"
+                    :clickable="false"
                     :min="1"
                     :max="254"
                     :interval="1"
-                    @change="changeBrightness(group)"
+                    @drag-end="setBrightness(group)"
                 ></vue-slider>
             </div>
         </b-list-group-item>
@@ -158,10 +162,52 @@ export default {
                     totalBrightness += d.state.bri
                 })
 
-                return totalBrightness / activeLights.length
+                group.state.bri = totalBrightness / activeLights.length
+
+                return group.state.bri
             }
 
             return 254
+        },
+
+        setBrightness(group) {
+            const activeLights = this.getActiveLights(group)
+
+            activeLights.forEach(light => {
+                light.state.bri = group.state.bri
+            })
+
+            this.changeLightState(activeLights)
+        },
+
+        toggleOnState(group) {
+            const activeLights = this.getAllLights(group)
+
+            activeLights.forEach(light => {
+                light.state.on = group.state.any_on
+            })
+
+            this.changeLightState(activeLights)
+        },
+
+        getAllLights(group) {
+            let allLights = []
+            group.lights.forEach(d => {
+                let index = this.lights.findIndex(
+                    l => l.light_id === parseInt(d, 10)
+                )
+                allLights.push(this.lights[index])
+            })
+            allLights = allLights.sort((a, b) => {
+                if (a.light_id < b.light_id) {
+                    return -1
+                }
+                if (a.light_id > b.light_id) {
+                    return 1
+                }
+                return 0
+            })
+            return allLights
         },
 
         getActiveLights(group) {
@@ -192,11 +238,12 @@ export default {
             return activeLights.length
         },
 
-        changeLightState(group) {
-            const activeLights = this.getActiveLights(group)
-
-            activeLights.forEach(light => {
-                this.$store.dispatch('hueLights/setLightState', light)
+        changeLightState(lights) {
+            lights.forEach(light => {
+                light.state.on = this.$store.dispatch(
+                    'hueLights/setLightState',
+                    light
+                )
             })
         }
     },
