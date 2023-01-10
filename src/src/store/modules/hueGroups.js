@@ -75,14 +75,6 @@ const mutations = {
     setGroup(state, group) {
         const index = state.groups.findIndex(g => g.group_id === group.group_id)
         state.groups[index] = group
-    },
-
-    setRooms(state, rooms) {
-        state.rooms = rooms
-    },
-
-    setZones(state, zones) {
-        state.zones = zones
     }
 }
 
